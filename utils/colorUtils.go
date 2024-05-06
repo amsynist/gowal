@@ -27,33 +27,37 @@ func ExtractDomiantColors(fileInput string, count int) ([]string, error) {
 	}
 	return dominantColors, nil
 }
-func ExtractColors(fileInput string, count int) []string {
+func ExtractColors(fileInput string, count int) ([]string, error) {
 	fallBackColors := []string{"#ffffff", "#000000", "00ffff", "0f0f0f", "#ffffff", "#000000", "00ffff", "0f0f0f"}
 	colors, err := ExtractDomiantColors(fileInput, count)
 	if err != nil {
-		colors = fallBackColors
+		return fallBackColors, err
 	}
 	if len(colors) != count {
 		colors = append(colors, fallBackColors...)
 
 	}
-	return colors[:count]
+	return colors[:count], nil
 }
 
-func SaveColors(colorList []string) string {
-	// Create or open the file named "colors"
-	file, err := os.Create("colors")
+func SaveColors(colorList []string, filepath ...string) (string, error) {
+	var filename string
+	if len(filepath) > 0 {
+		filename = filepath[0]
+	} else {
+		filename = "colors"
+	}
+
+	file, err := os.Create(filename)
 	if err != nil {
-		fmt.Println("Error creating file:", err)
-		return file.Name()
+		return filename, err
 	}
 	defer file.Close()
 
-	// Write each string to the file with the naming convention COLOR_ONE, COLOR_TWO, etc.
 	file.WriteString("#!/bin/bash \n")
 	fmt.Println("━━━━━━━━━━Color Sample Pallete━━━━━━━━━━")
 	for i, color := range colorList {
-		colorkit.Hex(color).Printf("┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃\n")
+		colorkit.Hex(color).Printf("┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃┃\n")
 		line := fmt.Sprintf("COLOR_%d=0xff%s\n", i+1, color[1:])
 		_, err := file.WriteString(line)
 		if err != nil {
@@ -62,6 +66,5 @@ func SaveColors(colorList []string) string {
 	}
 	fmt.Println("\n━━━━━━━━━━Color Sample Pallete━━━━━━━━━━")
 
-	return file.Name()
-
+	return filename, nil
 }

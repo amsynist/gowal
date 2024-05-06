@@ -24,21 +24,35 @@ func main() {
 				Usage: "path to the wallpaper file",
 			},
 			&cli.StringFlag{
-				Name:  "intensity",
+				Name:  "size",
 				Value: "8",
-				Usage: "theming intensity",
+				Usage: "number of colors to generate from the image",
+			},
+			&cli.StringFlag{
+				Name:  "out",
+				Value: "colors",
+				Usage: "color pallete output path",
 			},
 		},
 		Action: func(cCtx *cli.Context) error {
-			intensity, err := strconv.Atoi(cCtx.String("intensity"))
+			intensity, err := strconv.Atoi(cCtx.String("size"))
+			palleteDest := cCtx.String("out")
+
 			if err != nil {
-				fmt.Printf("intensity=%d, type: %T\n", intensity, intensity)
+				fmt.Printf("pallete-size=%d, type: %T\n", intensity, intensity)
 			}
 
 			if cCtx.String("file") != "" {
-				colors := utils.ExtractColors(cCtx.String("file"), intensity)
-				colors_file := utils.SaveColors(colors)
+				colors, err := utils.ExtractColors(cCtx.String("file"), intensity)
+				if err != nil {
+					log.Fatal("Error extracting colors: ", err)
+				}
+				colors_file, err := utils.SaveColors(colors, palleteDest)
+				if err != nil {
+					log.Fatal("Error saving colors: ", err)
+				}
 				fmt.Printf("Saved colors with filename : %s", colors_file)
+
 			} else {
 				log.Fatal("Missing required flags : file")
 			}
