@@ -1,6 +1,4 @@
-Here is a `README.md` file for your code:
-
-**README.md**
+**GOWAL**
 
 **gowal: A Wallpaper Color Extractor**
 =====================================
@@ -14,25 +12,28 @@ gowal is a command-line tool that extracts dominant colors from a wallpaper imag
 To install Dynamica, follow these steps:
 
 1. **Install Go**: You need to have Go installed on your system. You can download the latest version from the official Go website: <https://golang.org/dl/>
-2. **Get the code**: Clone this repository using Git: `git clone https://github.com/<your-username>/dynamica.git`
+2. **Get the code**: Clone this repository using Git: `git clone https://github.com/<your-username>/gowal.git` && `cd gowal`
+3. **Install the Dependencies**: `go install`
 3. **Build the binary**: Navigate to the cloned repository and run: `go build main.go`
 
 **Usage**
 
-To use Dynamica, run the following command:
+To use Gowal, run the following command:
 ```
-./dynamica -file <path-to-wallpaper-file> -intensity <theming-intensity>
+./gowal -file <path-to-wallpaper-file> -size <color-pallete-size> -out <color-pallete-output-path> 
 ```
 **Flags**
 
 * `-file`: The path to the wallpaper image file (required)
-* `-intensity`: The theming intensity (optional, default is 8)
+* `-size`: The color pallete size (n of colors) (optional, default is 8)
+* `-out`: The output path for pallete (optional, default is `colors`)
+
 
 **Example**
 
 Extract dominant colors from a wallpaper image file `wallpaper.jpg` with an intensity of 12:
 ```
-./dynamica -file wallpaper.jpg -intensity 12
+./gowal -file wallpaper.jpg -size 12 -out output_file/path
 ```
 This will save the extracted colors to a file.
 
