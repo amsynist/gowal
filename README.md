@@ -12,7 +12,7 @@ gowal is a command-line tool that extracts dominant colors from a wallpaper imag
 To install Dynamica, follow these steps:
 
 1. **Install Go**: You need to have Go installed on your system. You can download the latest version from the official Go website: <https://golang.org/dl/>
-2. **Get the code**: Clone this repository using Git: `git clone https://github.com/<your-username>/gowal.git` && `cd gowal`
+2. **Get the code**: Clone this repository using Git: `git clone https://github.com/amsynist/gowal.git` && `cd gowal`
 3. **Install the Dependencies**: `go install`
 3. **Build the binary**: Navigate to the cloned repository and run: `go build main.go`
 
